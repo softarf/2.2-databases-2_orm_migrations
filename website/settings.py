@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'school',
 ]
 
@@ -51,10 +52,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'website.urls'
 
+# Здесь мы добавляем путь до шаблонов
+TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [TEMPLATE_DIR, ],     # Путь до шаблонов
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,6 +78,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'netology_orm_migrations',
+        'USER': 'postgres',
+        'PASSWORD': 'psdb',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -102,9 +108,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'RU-ru'
+# Здесь мы можем заменить язык отображения Django и часовой пояс.
+# LANGUAGE_CODE = 'RU-ru'
+LANGUAGE_CODE = 'ru-ru'               # Устанавливает русский язык для окна приветствия.
 
-TIME_ZONE = 'Europe/Moscow'
+# TIME_ZONE = 'Europe/Moscow'
+TIME_ZONE = 'Asia/Yekaterinburg'      # Устанавливает местный часовой пояс.
 
 USE_I18N = True
 
@@ -126,8 +135,14 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+#             ПОЧЕМУ-ТО не оказалось этой настройки - добавил самостоятельно, после ошибки.
+# Назначает класс для ключей 'pk', создающихся автоматически в моделях проекта по умолчанию.
+# Также можно объявить в 'school/apps.py' - "default_auto_field = 'django.db.models.BigAutoField'".
+# Или объявить явно непосредственно в моделях (файл 'school/models.py')
+#     - ... "id = models.BigAutoField(primary_key=True, serialize=False, verbose_name='ID')"
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 try:
     from .settings_local import *
 except ImportError:
     pass
-
